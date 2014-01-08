@@ -13,9 +13,7 @@ module.exports = function(grunt) {
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  var contrib = require('grunt-lib-contrib').init(grunt);
   var chalk = require('chalk');
-  var q = require('q');
   var cheerio = require('cheerio');
 
   grunt.registerMultiTask('nginclude', 'Embed static ngIncludes.', function() {
