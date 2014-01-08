@@ -1,6 +1,6 @@
-# grunt-nginclude
+# grunt-nginclude [![Build Status](https://secure.travis-ci.org/mgcrea/grunt-nginclude.png?branch=master)](http://travis-ci.org/#!/mgcrea/grunt-nginclude)
 
-> Grunt task for embedding AngularJS ngInclude elements.
+> Grunt task for embedding AngularJS static ngInclude elements.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.2`
