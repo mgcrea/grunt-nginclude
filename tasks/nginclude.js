@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         var tags = $('ng-include, [ng-include]');
 
         // If we don't find any more ng-include tags, we're done.
-        if (tags.length == 0) {
+        if (tags.length === 0) {
           return $.html();
         }
 
