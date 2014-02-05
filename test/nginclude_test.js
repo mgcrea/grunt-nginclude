@@ -28,11 +28,15 @@ exports.nginclude = {
     done();
   },
   default_options: function(test) {
-    test.expect(1);
+    test.expect(2);
 
-    var actual = grunt.file.read('tmp/expected.html');
+    var actual = grunt.file.read('tmp/actual.html');
     var expected = grunt.file.read('test/expected/expected.html');
     test.equal(actual, expected, 'should describe what the default behavior is.');
+
+    var actualRecursive = grunt.file.read('tmp/actual-recursive.html');
+    var expectedRecursive = grunt.file.read('test/expected/expected-recursive.html');
+    test.equal(actualRecursive, expectedRecursive, 'should include recursively.');
 
     test.done();
   },

@@ -18,6 +18,38 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('nginclude', 'Embed static ngIncludes.', function() {
 
+    var processHtml = function(html){
+      var $ = cheerio.load(html);
+
+      // Use while to make the task recursive.
+      while (true) {
+        var tags = $('ng-include, [ng-include]');
+
+        // If we don't find any more ng-include tags, we're done.
+        if (tags.length == 0) {
+          return $.html();
+        }
+
+        // For each tag, grab the associated source file and sub it in.
+        tags.each(function(i, ng) {
+          var $ng = $(ng);
+          var src = $ng.attr('src') || $ng.attr('ng-include');
+          if(!src.match(/^'.+'$/g)) {
+            return;
+          }
+          var searchpath = options.assetsDirs.length > 1 ? '{' + options.assetsDirs.join(',') + '}' : options.assetsDirs[0];
+          searchpath += '/' + src.substr(1, src.length - 2);
+          var foundfiles = grunt.file.expand(searchpath);
+          if(!foundfiles.length) {
+            grunt.log.warn('Included file "' + searchpath + '" not found.');
+            return;
+          }
+          var include = grunt.file.read(foundfiles[0]).trim();
+          $ng.replaceWith('<!-- ngInclude: \'' + foundfiles[0] + '\' -->\n' + include);
+        });
+      }
+    }
+
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       assetsDirs: [this.target]
@@ -38,24 +70,8 @@ module.exports = function(grunt) {
         // Read file source.
         return grunt.file.read(filepath);
       }).map(function(html) {
-        var $ = cheerio.load(html);
-        $('ng-include, [ng-include]').each(function(i, ng) {
-          var $ng = $(ng);
-          var src = $ng.attr('src') || $ng.attr('ng-include');
-          if(!src.match(/^'.+'$/g)) {
-            return;
-          }
-          var searchpath = options.assetsDirs.length > 1 ? '{' + options.assetsDirs.join(',') + '}' : options.assetsDirs[0];
-          searchpath += '/' + src.substr(1, src.length - 2);
-          var foundfiles = grunt.file.expand(searchpath);
-          if(!foundfiles.length) {
-            grunt.log.warn('Included file "' + searchpath + '" not found.');
-            return;
-          }
-          var include = grunt.file.read(foundfiles[0]).trim();
-          $ng.replaceWith('<!-- ngInclude: \'' + foundfiles[0] + '\' -->\n' + include);
-        });
-        return $.html();
+        // Process the file's HTML source. 
+        return processHtml(html);
       }).map(function(output) {
         grunt.file.write(f.dest, output);
 
