@@ -35,7 +35,8 @@ module.exports = function(grunt) {
           assetsDirs: ['test']
         },
         files: {
-          'tmp/expected.html': ['test/fixtures/index.html'],
+          'tmp/actual.html': ['test/fixtures/index.html'],
+          'tmp/actual-recursive.html': ['test/fixtures/recursive-1.html']
         },
       }
     },
