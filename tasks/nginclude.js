@@ -18,7 +18,28 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('nginclude', 'Embed static ngIncludes.', function() {
 
-    var processHtml = function(html){
+    // Merge task-specific and/or target-specific options with these defaults.
+    var options = this.options({
+      assetsDirs: [this.target]
+    });
+
+    // Process some options to create others.
+    options.baseSearchpath = options.assetsDirs.length > 1 ? '{' + options.assetsDirs.join(',') + '}' : options.assetsDirs[0];
+
+    // This function receives an ng-include src and tries to read it from the filesystem.
+    var readSource = function(src) {
+      var searchpath = options.baseSearchpath + '/' + src.substr(1, src.length - 2);
+      var foundfiles = grunt.file.expand(searchpath);
+      if(!foundfiles.length) {
+        grunt.log.warn('Included file "' + searchpath + '" not found.');
+        return;
+      }
+      var include = grunt.file.read(foundfiles[0]).trim();
+      return include;
+    };
+
+    // Heavy lifting is done here. Parses ng-include tags and includes the source contents inside them.
+    var processHtml = function(html) {
       var $ = cheerio.load(html);
 
       // Use while to make the task recursive.
@@ -34,26 +55,23 @@ module.exports = function(grunt) {
         tags.each(function(i, ng) {
           var $ng = $(ng);
           var src = $ng.attr('src') || $ng.attr('ng-include');
+
           if(!src.match(/^'.+'$/g)) {
             return;
           }
-          var searchpath = options.assetsDirs.length > 1 ? '{' + options.assetsDirs.join(',') + '}' : options.assetsDirs[0];
-          searchpath += '/' + src.substr(1, src.length - 2);
-          var foundfiles = grunt.file.expand(searchpath);
-          if(!foundfiles.length) {
-            grunt.log.warn('Included file "' + searchpath + '" not found.');
-            return;
-          }
-          var include = grunt.file.read(foundfiles[0]).trim();
-          $ng.replaceWith('<!-- ngInclude: \'' + foundfiles[0] + '\' -->\n' + include);
+
+          // Remove old ng-include attributes so Angular doesn't read them.
+          $ng.removeAttr('src').removeAttr('ng-include');
+          
+          var comment1 = "\n<!-- ngInclude: '" + src + "' -->\n";
+          var comment2 = "\n<!--/ngInclude: '" + src + "' -->\n";
+          var include = readSource(src);
+
+          // As per Angular's behaviour, the included source is put inside the 
+          $ng.html(comment1 + include + comment2);
         });
       }
-    }
-
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      assetsDirs: [this.target]
-    });
+    };
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {

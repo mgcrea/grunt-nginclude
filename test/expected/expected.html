@@ -5,9 +5,15 @@
   <title>Title</title>
 </head>
 <body ontouchstart="" ng-controller="MainCtrl">
-  <!-- ngInclude: 'test/fixtures/partial-1.html' -->
+  <div class="mydiv">
+<!-- ngInclude: ''fixtures/partial-1.html'' -->
 <p>foo</p>
-  <!-- ngInclude: 'test/fixtures/partial-2.html' -->
+<!--/ngInclude: ''fixtures/partial-1.html'' -->
+</div>
+  <div class="mydiv">
+<!-- ngInclude: ''fixtures/partial-2.html'' -->
 <p>bar</p>
+<!--/ngInclude: ''fixtures/partial-2.html'' -->
+</div>
 </body>
 </html>

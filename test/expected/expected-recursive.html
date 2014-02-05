@@ -5,13 +5,22 @@
   <title>Title</title>
 </head>
 <body ontouchstart="" ng-controller="MainCtrl">
-  <!-- ngInclude: 'test/fixtures/recursive-2.html' -->
+  <div>
+<!-- ngInclude: ''fixtures/recursive-2.html'' -->
 <div class="recursive-includes">
-  <!-- ngInclude: 'test/fixtures/partial-1.html' -->
+  <div>
+<!-- ngInclude: ''fixtures/partial-1.html'' -->
 <p>foo</p>
-  <!-- ngInclude: 'test/fixtures/partial-2.html' -->
+<!--/ngInclude: ''fixtures/partial-1.html'' -->
+</div>
+  <div>
+<!-- ngInclude: ''fixtures/partial-2.html'' -->
 <p>bar</p>
+<!--/ngInclude: ''fixtures/partial-2.html'' -->
+</div>
 </div>
 <p>baz</p>
+<!--/ngInclude: ''fixtures/recursive-2.html'' -->
+</div>
 </body>
 </html>
