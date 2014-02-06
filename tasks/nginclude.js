@@ -46,15 +46,15 @@ module.exports = function(grunt) {
         var $ng = $(ng);
         var src = $ng.attr('src') || $ng.attr('ng-include');
 
-        if(!src.match(/^'.+'$/g)) {
+        if(!src.match(/^'[^']+'$/g)) {
           return;
         }
 
         // Remove old ng-include attributes so Angular doesn't read them.
         $ng.removeAttr('src').removeAttr('ng-include');
 
-        var comment1 = "\n<!-- ngInclude: '" + src + "' -->\n";
-        var comment2 = "\n<!--/ngInclude: '" + src + "' -->\n";
+        var comment1 = "\n<!-- ngInclude: " + src + " -->\n";
+        var comment2 = "\n<!--/ngInclude: " + src + " -->\n";
         var include = readSource(src);
 
         // As per Angular's behaviour, the included source is put inside the
