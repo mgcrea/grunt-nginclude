@@ -21,6 +21,7 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       trim: true,
+      recursionLimit: 5,
       assetsDirs: [this.target]
     });
 
@@ -40,14 +41,19 @@ module.exports = function(grunt) {
     };
 
     // Heavy lifting is done here. Parses ng-include tags and includes the source contents inside them.
-    var processHtml = function(html) {
+    var processHtml = function(html, srcDone) {
 
       var $ = cheerio.load(html);
-
-      function processTag(i, ng) {
+      function processTag(i, ng, srcDone) {
         var $ng = $(ng);
         var src = $ng.attr('src') || $ng.attr('ng-include');
         if(!src.match(/^'[^']+'$/g)) return false;
+
+        if (undefined === srcDone[src]) srcDone[src] = 0;
+
+        srcDone[src]++;
+
+        if (srcDone[src] > options.recursionLimit) return false;
 
         // Remove old ng-include attributes so Angular doesn't read them
         $ng.removeAttr('src').removeAttr('ng-include');
@@ -72,8 +78,8 @@ module.exports = function(grunt) {
         // For each tag, grab the associated source file and sub it in
         var results = [];
         /* jshint validthis:true*/
-        tags.each(function() {
-          results.push(processTag.apply(null, arguments));
+        tags.each(function(i, ng) {
+          results.push(processTag(i, ng, srcDone));
         });
 
         // If we don't find any more suitable ng-include tags
@@ -100,7 +106,7 @@ module.exports = function(grunt) {
         return grunt.file.read(filepath);
       }).map(function(html) {
         // Process the file's HTML source.
-        return processHtml(html);
+        return processHtml(html, {});
       }).map(function(output) {
         grunt.file.write(f.dest, output);
 
