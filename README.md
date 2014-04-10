@@ -43,6 +43,12 @@ Default value: `[this.target]`
 
 Array of directories to look for included files.
 
+#### options.recursionLimit
+Type: `Integer`
+Default value: `5`
+
+Set the limit of recursion for the same file when a file `A` include it self directly of indirectly.
+
 ### Usage Examples
 
 #### Default Options
