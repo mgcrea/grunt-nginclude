@@ -38,20 +38,20 @@ grunt.initConfig({
 ### Options
 
 #### options.assetsDirs
-Type: `Array`
+Type: `Array`  
 Default value: `[this.target]`
 
 Array of directories to look for included files.
 
 #### options.cheerioOpts
-Type: `Object`
+Type: `Object`  
 Default value: `{}`
 
 You can also pass an extra object to  cheerio plugin if you need to modify any of the default parsing options.  
 For more details see [this](https://github.com/cheeriojs/cheerio#loading)
 
 #### options.prependAttrs
-Type: `String`
+Type: `String`  
 Default value: `''`
 
 By default plugin search `<ng-include>` elements and elements with `ng-include` attribute.  
@@ -62,7 +62,7 @@ prependAttrs: 'data-'
 
 
 #### options.filterTags
-Type: `String`
+Type: `String`  
 Default value: `''`
 
 Cheerio(jQuery) selector.  
@@ -71,7 +71,7 @@ Example: `filterTags: '.replace-include'` or `filterTags: '[data-replace-include
 
 
 #### options.attrs2Remove
-Type: `Array`
+Type: `Array`  
 Default value: `[]`
 
 A list of attributes to be removed from element with `ng-include` directive.  
@@ -79,7 +79,7 @@ Useful in combination with `filterTags` option
 
 
 #### options.useWrapComments
-Type: `Boolean`
+Type: `Boolean`  
 Default value: `true`
 
 By default plugin wraps each included block with comments about his path.  
