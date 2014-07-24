@@ -21,7 +21,12 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       trim: true,
-      assetsDirs: [this.target]
+      assetsDirs: [this.target],
+      cheerioOpts: {},
+      prependAttrs: '',
+      filterTags: '',
+      attrs2Remove: [],
+      useWrapComments: true
     });
 
     // Process some options to create others.
@@ -42,28 +47,52 @@ module.exports = function(grunt) {
     // Heavy lifting is done here. Parses ng-include tags and includes the source contents inside them.
     var processHtml = function(html) {
 
-      var $ = cheerio.load(html);
+      var $ = cheerio.load(html, options.cheerioOpts);
 
       function processTag(i, ng) {
         var $ng = $(ng);
-        var src = $ng.attr('src') || $ng.attr('ng-include');
-        if(!src.match(/^'[^']+'$/g)) return false;
+        var src = $ng.attr('src') || $ng.attr(options.prependAttrs + 'ng-include');
+        if (!src.match(/^'[^']+'$/g)) return false;
 
         // Remove old ng-include attributes so Angular doesn't read them
-        $ng.removeAttr('src').removeAttr('ng-include');
-
-        var before = "\n<!-- ngInclude: " + src + " -->\n";
-        var after = "\n<!--/ngInclude: " + src + " -->\n";
+        $ng.removeAttr('src').removeAttr(options.prependAttrs + 'ng-include');
+        
+        // Remove additional attributes specified by user in task options
+        options.attrs2Remove.forEach(function(el) {
+          $ng.removeAttr(el);
+        });
+        
+        var before = "";
+        var after = "";
+        
+        if (options.useWrapComments) {
+          before = "\n<!-- ngInclude: " + src + " -->\n";
+          after = "\n<!--/ngInclude: " + src + " -->\n";
+        }
+        
         var include = readSource(src.substr(1, src.length - 2));
         if(options.trim) include = include.trim();
         $ng.html(before + include + after);
+
+        // If tag has an 'onload' handler, then add it to ng-init attribute
+        if ($ng.attr('onload')) {
+          $ng.attr(options.prependAttrs + 'ng-init',
+              ($ng.attr(options.prependAttrs + 'ng-init') ? $ng.attr(options.prependAttrs + 'ng-init') + ';' : '') +
+              $ng.attr('onload'))
+            .removeAttr('onload');
+        }
+
         return true;
       }
 
       // Use while to make the task recursive.
       while (true) {
-        var tags = $('ng-include, [ng-include]');
+        var tags = $('ng-include, ['+ options.prependAttrs + 'ng-include]');
 
+        if (options.filterTags !== '') {
+          tags = tags.filter(options.filterTags);
+        }
+        
         // If we don't find any more ng-include tags, we're done.
         if (tags.length === 0) {
           return $.html();
