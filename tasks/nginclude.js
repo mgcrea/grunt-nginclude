@@ -21,7 +21,8 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       trim: true,
-      assetsDirs: [this.target]
+      assetsDirs: [this.target],
+      decodeEntities: false
     });
 
     // Process some options to create others.
@@ -42,12 +43,14 @@ module.exports = function(grunt) {
     // Heavy lifting is done here. Parses ng-include tags and includes the source contents inside them.
     var processHtml = function(html) {
 
-      var $ = cheerio.load(html);
+      var $ = cheerio.load(html, {
+        decodeEntities: options.decodeEntities
+      });
 
       function processTag(i, ng) {
         var $ng = $(ng);
         var src = $ng.attr('src') || $ng.attr('ng-include');
-        if(!src.match(/^'[^']+'$/g)) return false;
+        if(!src || !src.match(/^'[^']+'$/g)) return false;
 
         // Remove old ng-include attributes so Angular doesn't read them
         $ng.removeAttr('src').removeAttr('ng-include');
@@ -56,7 +59,13 @@ module.exports = function(grunt) {
         var after = "\n<!--/ngInclude: " + src + " -->\n";
         var include = readSource(src.substr(1, src.length - 2));
         if(options.trim) include = include.trim();
-        $ng.html(before + include + after);
+        
+        if ($ng.get(0).name === 'ng-include') {
+            $ng.replaceWith(before + include + after);
+        } else {
+            $ng.html(before + include + after);
+        }
+        
         return true;
       }
 
