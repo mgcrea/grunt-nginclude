@@ -21,7 +21,8 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       trim: true,
-      assetsDirs: [this.target]
+      assetsDirs: [this.target],
+      decodeEntities: false
     });
 
     // Process some options to create others.
@@ -42,7 +43,9 @@ module.exports = function(grunt) {
     // Heavy lifting is done here. Parses ng-include tags and includes the source contents inside them.
     var processHtml = function(html) {
 
-      var $ = cheerio.load(html);
+      var $ = cheerio.load(html, {
+        decodeEntities: options.decodeEntities
+      });
 
       function processTag(i, ng) {
         var $ng = $(ng);
