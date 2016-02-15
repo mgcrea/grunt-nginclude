@@ -59,7 +59,13 @@ module.exports = function(grunt) {
         var after = "\n<!--/ngInclude: " + src + " -->\n";
         var include = readSource(src.substr(1, src.length - 2));
         if(options.trim) include = include.trim();
-        $ng.html(before + include + after);
+        
+        if ($ng.get(0).name === 'ng-include') {
+            $ng.replaceWith(before + include + after);
+        } else {
+            $ng.html(before + include + after);
+        }
+        
         return true;
       }
 
