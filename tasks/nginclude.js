@@ -50,7 +50,7 @@ module.exports = function(grunt) {
       function processTag(i, ng) {
         var $ng = $(ng);
         var src = $ng.attr('src') || $ng.attr('ng-include');
-        if(!src.match(/^'[^']+'$/g)) return false;
+        if(!src || !src.match(/^'[^']+'$/g)) return false;
 
         // Remove old ng-include attributes so Angular doesn't read them
         $ng.removeAttr('src').removeAttr('ng-include');
