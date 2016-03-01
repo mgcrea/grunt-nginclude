@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/mgcrea/grunt-nginclude/badge.svg?branch=master)](https://coveralls.io/github/mgcrea/grunt-nginclude?branch=master)
 # grunt-nginclude
 
-Replaces static AngularJS `ng-include` directives by their contents
+Grunt task for embedding AngularJS static `ng-include` elements.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -26,7 +26,7 @@ In your project's Gruntfile, add a section named `nginclude` to the data object 
 
 ```js
 grunt.initConfig({
-  'nginclude': {
+  nginclude: {
     options: {
       discardReferencedFiles: false,
       replacementElementTag: 'span',
@@ -96,7 +96,7 @@ would turn to
 
 ```js
 grunt.initConfig({
-  `nginclude`: {
+  nginclude: {
     options: {
       discardReferencedFiles: true
       replacementElementTag: 'section',
