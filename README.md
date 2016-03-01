@@ -1,36 +1,32 @@
-# grunt-nginclude [![Build Status](https://secure.travis-ci.org/mgcrea/grunt-nginclude.png?branch=master)](http://travis-ci.org/#!/mgcrea/grunt-nginclude)
-
-> Grunt task for embedding AngularJS static ngInclude elements.
-
-[![Build Status](https://travis-ci.org/maiap/grunt-expand-nginclude.svg?branch=master)](https://travis-ci.org/maiap/grunt-expand-nginclude)
-[![Coverage Status](https://coveralls.io/repos/github/maiap/grunt-expand-nginclude/badge.svg?branch=master)](https://coveralls.io/github/maiap/grunt-expand-nginclude?branch=master)
-# grunt-expand-nginclude
+[![Build Status](https://travis-ci.org/mgcrea/grunt-nginclude.svg?branch=master)](https://travis-ci.org/mgcrea/grunt-nginclude)
+[![Coverage Status](https://coveralls.io/repos/github/mgcrea/grunt-nginclude/badge.svg?branch=master)](https://coveralls.io/github/mgcrea/grunt-nginclude?branch=master)
+# grunt-nginclude
 
 Replaces static AngularJS `ng-include` directives by their contents
 
 ## Getting Started
-This plugin requires Grunt `~0.4.2`
+This plugin requires Grunt `~0.4.5`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-expand-nginclude --save-dev
+npm install grunt-nginclude --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-expand-nginclude');
+grunt.loadNpmTasks('grunt-nginclude');
 ```
 
-## The "expand-nginclude" task
+## The "nginclude" task
 
 ### Overview
-In your project's Gruntfile, add a section named `expand-nginclude` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `nginclude` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  'expand-nginclude': {
+  'nginclude': {
     options: {
       discardReferencedFiles: false,
       replacementElementTag: 'span',
@@ -80,7 +76,7 @@ Type: `String`
 Default value: `''`
 
 CSS class to add to the elements replacing `ng-include` element directives.
-If, for some reason there is the need to add a class to the replaced
+If, for some reason, there is the need to add a class to the replaced
 `ng-include` element directive, it can be set with this configuration. This
 gives a way of identifying the replacement element or of adding extra
 styling to the new element.
@@ -91,7 +87,7 @@ By setting this option to `'nginclude-replaced'`, the following HTML
 ```
 would turn to
 ```html
-<span class="nginclide-replaced" ng-if="showPartial">partial contents</span>
+<span class="nginclude-replaced" ng-if="showPartial">partial contents</span>
 ```
 
 ### Usage Examples
@@ -100,7 +96,7 @@ would turn to
 
 ```js
 grunt.initConfig({
-  `expand-nginclude`: {
+  `nginclude`: {
     options: {
       discardReferencedFiles: true
       replacementElementTag: 'section',

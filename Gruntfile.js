@@ -2,7 +2,7 @@ module.exports = function (grunt) {
   'use strict';
   var path = require('path');
 
-  grunt.registerTask('release', 'Release and publish new `grunt-expand-nginclude` version', function (releaseType) {
+  grunt.registerTask('release', 'Release and publish new `grunt-nginclude` version', function (releaseType) {
     var RELEASE_TYPES = ['major', 'minor', 'patch'];
 
     if (!releaseType) {

@@ -5,7 +5,7 @@ var loadHelper = require('../tasks/helpers/load');
 var processHelper = require('../tasks/helpers/process');
 var saveHelper = require('../tasks/helpers/save');
 
-describe('expand-nginclude-task', function () {
+describe('nginclude-task', function () {
     'use strict';
 
     var grunt;
@@ -19,7 +19,7 @@ describe('expand-nginclude-task', function () {
             }
         };
         sinon.spy(grunt, 'registerMultiTask');
-        task = require('../tasks/expand-nginclude-task');
+        task = require('../tasks/nginclude-task');
     });
 
     describe('when task registers', function () {
@@ -27,7 +27,7 @@ describe('expand-nginclude-task', function () {
             task(grunt);
 
             expect(grunt.registerMultiTask.calledWithMatch(
-                'expand-nginclude',
+                'nginclude',
                 'Grunt task to replace Angular 1.x ng-include directives ' +
                 'with static paths by the corresponding file content'
             )).to.be.true;
@@ -45,7 +45,7 @@ describe('expand-nginclude-task', function () {
             sinon.stub(processHelper, 'file');
             sinon.stub(saveHelper, 'file');
 
-            task = require('../tasks/expand-nginclude-task');
+            task = require('../tasks/nginclude-task');
             config = {
                 files: [{
                     src: [

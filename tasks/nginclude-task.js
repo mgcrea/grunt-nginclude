@@ -1,6 +1,4 @@
 /*
- * expand-nginclude (custom)
- *
  * Replace angular`s ng-include directives by the corresponding template.
  */
 var objMerge = require('mout/object/merge');
@@ -18,7 +16,7 @@ module.exports = function (grunt) {
     };
 
     grunt.registerMultiTask(
-        'expand-nginclude',
+        'nginclude',
         'Grunt task to replace Angular 1.x ng-include directives with static paths by the corresponding file content',
         function () {
             var fileMap;
