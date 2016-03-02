@@ -42,7 +42,9 @@
     "load-grunt-tasks": "3.2.0",
     "mocha": "2.3.4",
     "mocha-lcov-reporter": "^1.2.0",
-    "sinon": "1.17.2",
+    "sinon": "1.17.2"
+  },
+  "peerDependencies": {
     "grunt-cli": "0.1.13"
   },
   "keywords": [
