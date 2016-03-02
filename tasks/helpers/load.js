@@ -52,7 +52,7 @@ module.exports = (function () {
         return dependencyList;
     }
 
-    function newFile(grunt, fileGroup, fileName) {
+    function newFile(grunt, fileGroup, fileName, taskOptions) {
         var file = {
             name: fileName,
             content: null,
@@ -65,7 +65,7 @@ module.exports = (function () {
         var fileContent = grunt.file.read(filePath, {encoding: 'utf8'});
 
         // Loads file content as a jQuery element for DOM manipulation purposes
-        file.content = cheerio.load(fileContent);
+        file.content = cheerio.load(fileContent, taskOptions.parserOptions);
         file.dependencies = collectFileDependencies(file);
 
         return file;

@@ -11,6 +11,7 @@ module.exports = function (grunt) {
     'use strict';
     var DEFAULT_TASK_CONFIG = {
         discardReferencedFiles: false,
+        parserOptions: {},
         replacementElementTag: 'span',
         replacementElementClass: ''
     };
@@ -27,7 +28,7 @@ module.exports = function (grunt) {
 
                 filesConfig.forEach(function (fileGroup) {
                     fileGroup.src.forEach(function (srcFile) {
-                        newFileMap[srcFile] = load.file(grunt, fileGroup, srcFile);
+                        newFileMap[srcFile] = load.file(grunt, fileGroup, srcFile, taskConfig);
                     });
                 });
 

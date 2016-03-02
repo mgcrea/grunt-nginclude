@@ -10,6 +10,7 @@ describe('helpers/load', function () {
         var fileGroup;
         var fileName;
         var fileContent;
+        var taskConfig;
 
         beforeEach(function () {
             grunt = {file: {read: sinon.stub()}};
@@ -18,6 +19,11 @@ describe('helpers/load', function () {
                 cwd: '/app'
             };
             fileName = 'path/to/file.html';
+
+            taskConfig = {
+                replacementElementTag: 'span',
+                replacementElementClass: ''
+            };
         });
 
         describe('when file has no `ng-include` directive', function () {
@@ -27,20 +33,20 @@ describe('helpers/load', function () {
             });
 
             it('should return a file object with no dependencies', function () {
-                var output = loadHelper.file(grunt, fileGroup, fileName);
+                var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                 expect(output.dependencies.length).to.eql(0);
             });
 
             it('should return same file attributes as provided', function () {
-                var output = loadHelper.file(grunt, fileGroup, fileName);
+                var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                 expect(output.name).to.eql('path/to/file.html');
                 expect(output.outputPath).to.eql('/tmp');
             });
 
             it('should return set file as not referenced', function () {
-                var output = loadHelper.file(grunt, fileGroup, fileName);
+                var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                 expect(output.isReferenced).to.be.false;
             });
@@ -55,19 +61,19 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(1);
                     });
 
                     it('should have a cheerio element in the dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies[0].element).to.include.keys(['attribs', 'parent', 'type']);
                     });
 
                     it('should have the filename specified in the file content in the dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies[0].filename).to.eql('path/to/other/file.html');
                     });
@@ -80,7 +86,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(1);
                     });
@@ -93,7 +99,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(1);
                     });
@@ -106,7 +112,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(1);
                     });
@@ -119,7 +125,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(1);
                     });
@@ -132,7 +138,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(1);
                     });
@@ -147,7 +153,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(0);
                     });
@@ -160,7 +166,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(0);
                     });
@@ -173,7 +179,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(0);
                     });
@@ -186,7 +192,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(0);
                     });
@@ -199,7 +205,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(0);
                     });
@@ -212,7 +218,7 @@ describe('helpers/load', function () {
                     });
 
                     it('should return a file object with one dependency', function () {
-                        var output = loadHelper.file(grunt, fileGroup, fileName);
+                        var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                         expect(output.dependencies.length).to.eql(0);
                     });
@@ -231,13 +237,13 @@ describe('helpers/load', function () {
                 });
 
                 it('should return a file object with three dependencies', function () {
-                    var output = loadHelper.file(grunt, fileGroup, fileName);
+                    var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                     expect(output.dependencies.length).to.eql(3);
                 });
 
                 it('should have a cheerio element in each dependency', function () {
-                    var output = loadHelper.file(grunt, fileGroup, fileName);
+                    var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                     expect(output.dependencies[0].element).to.include.keys(['attribs', 'parent', 'type']);
                     expect(output.dependencies[1].element).to.include.keys(['attribs', 'parent', 'type']);
@@ -245,7 +251,7 @@ describe('helpers/load', function () {
                 });
 
                 it('should have the filename specified in the file content in each dependency', function () {
-                    var output = loadHelper.file(grunt, fileGroup, fileName);
+                    var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                     expect(output.dependencies[0].filename).to.eql('path/to/first/file.html');
                     expect(output.dependencies[1].filename).to.eql('path/to/second/file.html');
@@ -263,7 +269,7 @@ describe('helpers/load', function () {
                 });
 
                 it('should return a file object with tree dependencies', function () {
-                    var output = loadHelper.file(grunt, fileGroup, fileName);
+                    var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                     expect(output.dependencies.length).to.eql(3);
                 });
@@ -278,13 +284,13 @@ describe('helpers/load', function () {
             });
 
             it('should return a file object with no dependencies', function () {
-                var output = loadHelper.file(grunt, fileGroup, fileName);
+                var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                 expect(output.dependencies.length).to.eql(0);
             });
 
             it('should return same file attributes as provided', function () {
-                var output = loadHelper.file(grunt, fileGroup, fileName);
+                var output = loadHelper.file(grunt, fileGroup, fileName, taskConfig);
 
                 expect(output.name).to.eql('path/to/file.html');
                 expect(output.outputPath).to.eql('/tmp');

@@ -29,6 +29,9 @@ grunt.initConfig({
   nginclude: {
     options: {
       discardReferencedFiles: false,
+      parserOptions: {
+        decodeEntities: false
+      },
       replacementElementTag: 'span',
       replacementElementClass: ''
     }
@@ -38,12 +41,27 @@ grunt.initConfig({
 
 ### Options
 
+#### options.parserOptions
+
+Type: `Object`
+
+Default value: `{}`
+
+Enables parser options overrides.
+
+For more information about available parser options check cheerio
+[`loading`](https://github.com/cheeriojs/cheerio#loading) documentation or
+directly the options available in the
+[htmlparser2](https://github.com/fb55/htmlparser2/wiki/Parser-options) and
+[domhandler](https://github.com/fb55/DomHandler).
+
 #### options.discardReferencedFiles
 
 Type: `Boolean`
 Default value: `false`
 
 Whether to discard referenced files on output or not.
+
 Files that are explicitly referenced by `ng-include` directives are probably
 not referenced from any other place and don't need to be present on the output
 path neither on the template cache to be generated afterwards. To prevent
@@ -56,6 +74,7 @@ Type: `String`
 Default value: `'span'`
 
 HTML tag used to replace `ng-include` element directives.
+
 As `ng-include` element directives can't just be removed because there might
 be some other attributes that need to be kept in order to be processed by
 angular or the browser, these elements must be replaced by other ones that
@@ -76,6 +95,7 @@ Type: `String`
 Default value: `''`
 
 CSS class to add to the elements replacing `ng-include` element directives.
+
 If, for some reason, there is the need to add a class to the replaced
 `ng-include` element directive, it can be set with this configuration. This
 gives a way of identifying the replacement element or of adding extra
@@ -99,6 +119,7 @@ grunt.initConfig({
   nginclude: {
     options: {
       discardReferencedFiles: true
+      parserOptions: {},
       replacementElementTag: 'section',
       replacementElementClass: 'nginclude-replaced'
     },
