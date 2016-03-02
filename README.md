@@ -32,28 +32,14 @@ grunt.initConfig({
       parserOptions: {
         decodeEntities: false
       },
-      replacementElementTag: 'span',
-      replacementElementClass: ''
+      replacementElementClass: '',
+      replacementElementTag: 'span'
     }
   },
 });
 ```
 
 ### Options
-
-#### options.parserOptions
-
-Type: `Object`
-
-Default value: `{}`
-
-Enables parser options overrides.
-
-For more information about available parser options check cheerio
-[`loading`](https://github.com/cheeriojs/cheerio#loading) documentation or
-directly the options available in the
-[htmlparser2](https://github.com/fb55/htmlparser2/wiki/Parser-options) and
-[domhandler](https://github.com/fb55/DomHandler).
 
 #### options.discardReferencedFiles
 
@@ -68,26 +54,19 @@ path neither on the template cache to be generated afterwards. To prevent
 those files from being added to the output there is this option that will
 discard referenced files when set to `true`.
 
-#### options.replacementElementTag
+#### options.parserOptions
 
-Type: `String`
-Default value: `'span'`
+Type: `Object`
 
-HTML tag used to replace `ng-include` element directives.
+Default value: `{}`
 
-As `ng-include` element directives can't just be removed because there might
-be some other attributes that need to be kept in order to be processed by
-angular or the browser, these elements must be replaced by other ones that
-have no special meaning for angular.
+Enables parser options overrides.
 
-By setting this option to `'section'`, the following HTML
-```html
-<ng-include ng-if="showPartial" src="'partial.html'"></ng-include>
-```
-would turn to
-```html
-<section ng-if="showPartial">partial contents</section>
-```
+For more information about available parser options check cheerio
+[`loading`](https://github.com/cheeriojs/cheerio#loading) documentation or
+directly the options available in the
+[htmlparser2](https://github.com/fb55/htmlparser2/wiki/Parser-options) and
+[domhandler](https://github.com/fb55/DomHandler).
 
 #### options.replacementElementClass
 
@@ -110,6 +89,27 @@ would turn to
 <span class="nginclude-replaced" ng-if="showPartial">partial contents</span>
 ```
 
+#### options.replacementElementTag
+
+Type: `String`
+Default value: `'span'`
+
+HTML tag used to replace `ng-include` element directives.
+
+As `ng-include` element directives can't just be removed because there might
+be some other attributes that need to be kept in order to be processed by
+angular or the browser, these elements must be replaced by other ones that
+have no special meaning for angular.
+
+By setting this option to `'section'`, the following HTML
+```html
+<ng-include ng-if="showPartial" src="'partial.html'"></ng-include>
+```
+would turn to
+```html
+<section ng-if="showPartial">partial contents</section>
+```
+
 ### Usage Examples
 
 #### Default Options
@@ -120,8 +120,8 @@ grunt.initConfig({
     options: {
       discardReferencedFiles: true
       parserOptions: {},
-      replacementElementTag: 'section',
-      replacementElementClass: 'nginclude-replaced'
+      replacementElementClass: 'nginclude-replaced',
+      replacementElementTag: 'section'
     },
     your_target: {
       files: [{
