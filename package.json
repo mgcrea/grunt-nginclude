@@ -1,7 +1,7 @@
 {
   "name": "grunt-nginclude",
   "description": "Grunt task for embedding AngularJS ngInclude elements",
-  "version": "0.4.1",
+  "version": "1.0.0",
   "homepage": "https://github.com/mgcrea/grunt-nginclude",
   "author": {
     "name": "Olivier Louvignes",
