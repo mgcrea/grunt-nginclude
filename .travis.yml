@@ -1,7 +1,10 @@
 language: node_js
 node_js:
   - "0.10"
-  - "0.11"
-
-before_script:
-  - npm install -g grunt-cli
+  - "0.12"
+  - "4.3"
+  - "5.7"
+before_install:
+  - "npm -g install npm@latest"
+after_success:
+  - "./node_modules/coveralls/bin/coveralls.js < reports/coverage/lcov.info"
