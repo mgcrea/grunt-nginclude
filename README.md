@@ -44,6 +44,7 @@ grunt.initConfig({
 #### options.discardReferencedFiles
 
 Type: `Boolean`
+
 Default value: `false`
 
 Whether to discard referenced files on output or not.
@@ -71,6 +72,7 @@ directly the options available in the
 #### options.replacementElementClass
 
 Type: `String`
+
 Default value: `''`
 
 CSS class to add to the elements replacing `ng-include` element directives.
@@ -92,6 +94,7 @@ would turn to
 #### options.replacementElementTag
 
 Type: `String`
+
 Default value: `'span'`
 
 HTML tag used to replace `ng-include` element directives.
