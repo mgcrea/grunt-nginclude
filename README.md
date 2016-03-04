@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/mgcrea/grunt-nginclude.svg?branch=master)](https://travis-ci.org/mgcrea/grunt-nginclude)
 [![Coverage Status](https://coveralls.io/repos/github/mgcrea/grunt-nginclude/badge.svg?branch=master)](https://coveralls.io/github/mgcrea/grunt-nginclude?branch=master)
+[![Dependencies](https://david-dm.org/mgcrea/grunt-nginclude.svg)](https://david-dm.org/mgcrea/grunt-nginclude)
 # grunt-nginclude
 
 Grunt task for embedding AngularJS static `ng-include` elements.
