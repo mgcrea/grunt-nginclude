@@ -53,7 +53,7 @@ module.exports = (function () {
         // Resolve dependencies
         file.dependencies.forEach(function (dependency) {
             var referencedFile = general.getFile([dependency.filename], fileMap);
-            var dependencyContent = produceFileContent(referencedFile, fileMap);
+            var dependencyContent = produceFileContent(referencedFile, fileMap, taskConfig);
             var $element = file.content(dependency.element);
 
             referencedFile.isReferenced = true;
